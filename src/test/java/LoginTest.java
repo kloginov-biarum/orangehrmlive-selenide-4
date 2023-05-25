@@ -5,33 +5,46 @@ import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
 
-public class LoginTest {
+public class LoginTest extends BaseTest{
 
     @Test
     public void successLogin() {
-        open("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-        LoginPage loginPage = new LoginPage();
         loginPage.enterUsername("Admin");
         loginPage.enterPassword("admin123");
         loginPage.pushLoginButton();
-        DashboardPage dashboardPage = new DashboardPage();
         dashboardPage.correctHeaderText();
+
     }
 
     @Test
     public void invalidPassword(){
-        open("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-        LoginPage loginPage = new LoginPage();
         loginPage.enterUsername("Admin");
         loginPage.enterPassword("admin");
         loginPage.pushLoginButton();
         loginPage.invalidCredText("Invalid credentials");
     }
 
-    @Test
+
     public void emptyInputFields(){
         //Leave password and username empty
         //check error messages "Required"
+    }
+
+    @Test
+    public void forgotPassword(){
+        loginPage.followTheForgotPasswordLink();
+        resetPasswordPage.checkResetPasswordTittle();
+        resetPasswordPage.urlIsCorrect();
+    }
+
+
+    @Test
+    public void elementsAreVisible(){
+        //logo is displayed
+        loginPage.logoIsDisplayed();
+        //credentionals section is displayed
+        loginPage.credSectionIsDisplayed();
+        loginPage.logoImageIsCorrect();
     }
 
 }
